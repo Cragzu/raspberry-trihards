@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
  
-MQTT_SERVER = "142.232.155.59"
+MQTT_SERVER = "localhost"
 MQTT_PATH = "test_channel"
  
 # The callback for when the client receives a CONNACK response from the server.
