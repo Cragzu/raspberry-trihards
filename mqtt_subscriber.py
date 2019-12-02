@@ -26,9 +26,7 @@ client.connect(MQTT_SERVER, 1883, 60)
 # handles reconnecting.
 # Other loop*() functions are available that give a threaded interface and a
 # manual interface.
-while True:
-    client.loop_start()
-    msg = input()
-    publish.single(MQTT_PATH, msg, hostname=MQTT_SERVER)
+client.loop_forever()
+
 
 

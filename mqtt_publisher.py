@@ -4,3 +4,7 @@ MQTT_SERVER = "localhost" # IP of other pi
 MQTT_PATH = "test_channel"
  
 publish.single(MQTT_PATH, "Hello World!", hostname=MQTT_SERVER)
+
+while True:
+    msg = input()
+    publish.single(MQTT_PATH, msg, hostname=MQTT_SERVER)
