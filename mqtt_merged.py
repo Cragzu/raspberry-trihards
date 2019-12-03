@@ -11,11 +11,11 @@ MQTT_CURRENT = MQTT_KAYDEN  # The current user's IP
 
  
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):  # first 3 params are unused, will it break if they are removed?
+def on_connect(client, userdata, flags, rc: int):  # middle 2 params are unused, will it break if they are removed?
     """
     Print a confirmation message upon successful connection.
 
-    :param client: unused? remove?
+    :param client:
     :param userdata: unused? remove?
     :param flags: unused? remove?
     :param rc: int, the result code of the connection.
@@ -39,17 +39,13 @@ client.on_message = on_message
  
 client.connect(MQTT_CURRENT, 1883, 60)
  
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
+# Blocking call that processes network traffic, dispatches callbacks and handles reconnecting.
 client.loop_start()
 
-
+# publish initial message to server when client connects
 publish.single(MQTT_PATH, "The server was opened successfully.", hostname=client._host)
 
-while True:
+while True:  # continually ask for input to publish
     msg = input()
-    publish.single(MQTT_PATH, msg, hostname=MQTT_CHLOE)
-    publish.single(MQTT_PATH, msg, hostname=MQTT_KAYDEN)
-    publish.single(MQTT_PATH, msg, hostname=MQTT_JACKY)
+    for i in [MQTT_CHLOE, MQTT_KAYDEN, MQTT_JACKY]:  # publish message to all 3 devices
+        publish.single(MQTT_PATH, msg, hostname=i)
