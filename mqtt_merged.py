@@ -11,7 +11,17 @@ MQTT_CURRENT = MQTT_KAYDEN  # The current user's IP
 
  
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, rc):  # first 3 params are unused, will it break if they are removed?
+    """
+    Print a confirmation message upon successful connection.
+
+    :param client: unused? remove?
+    :param userdata: unused? remove?
+    :param flags: unused? remove?
+    :param rc: int, the result code of the connection.
+    :precondition: rc should be 0 if the connection was successful.
+    :return: none, uses print statement.
+    """
     print("Connected with result code "+str(rc))
  
     # Subscribing in on_connect() means that if we lose the connection and
