@@ -2,7 +2,7 @@ import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
 
 
-MQTT_CHLOE = "192.168.43.106" # Chloe's IP - the host
+MQTT_CHLOE = "192.168.43.106" # Chloe's IP
 MQTT_KAYDEN = "192.168.43.12" # Kayden's IP
 MQTT_JACKY = "192.168.43.142" # Jacky's IP
 MQTT_PATH = "test_channel" # the topic name
@@ -18,14 +18,13 @@ def on_connect(client, userdata, flags, rc):
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic+": "+str(msg.payload.decode('utf-8')))
-    # more callbacks, etc
+    print("Chloe: "+str(msg.payload.decode('utf-8')))
  
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
  
-client.connect(MQTT_CHLOE, 1883, 60)  # the IP of the person running the file
+client.connect(MQTT_CHLOE, 1883, 60)  # must be the IP of the person running the file
  
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
@@ -34,14 +33,10 @@ client.connect(MQTT_CHLOE, 1883, 60)  # the IP of the person running the file
 client.loop_start()
 
 
-publish.single(MQTT_PATH, "The server was opened successfully.", hostname=MQTT_CHLOE)
+publish.single(MQTT_PATH, "Chloe joined the server!", hostname=MQTT_CHLOE)
 
 while True:
     msg = input()
     publish.single(MQTT_PATH, msg, hostname=MQTT_CHLOE)
     publish.single(MQTT_PATH, msg, hostname=MQTT_KAYDEN)
     publish.single(MQTT_PATH, msg, hostname=MQTT_JACKY)
-
-
-
-
