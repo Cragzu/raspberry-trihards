@@ -1,10 +1,11 @@
 import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
+import sys
 
 
-MQTT_CHLOE = "192.168.43.106"  # Chloe's IP
-MQTT_KAYDEN = "192.168.43.12"  # Kayden's IP
-MQTT_JACKY = "192.168.43.142"  # Jacky's IP
+MQTT_CHLOE = "192.168.43.1"  # Chloe's IP
+MQTT_KAYDEN = "192.168.43.128"  # Kayden's IP
+MQTT_JACKY = "192.168.43.138"  # Jacky's IP
 MQTT_PATH = "test_channel"
 
 MQTT_CURRENT = MQTT_KAYDEN  # The current user's IP
@@ -41,7 +42,7 @@ def on_message(client, userdata, msg: str):  # todo: userdata unused? remove?
 
     # client._host is the IP of the client, this distinguishes who sent what message
     # decoding the message with utf-8 helps with formatting and removes quotes/other characters
-    print(str(client._host) + ": " + str(msg.payload.decode('utf-8')))
+    print(str(msg.payload.decode('utf-8')))
 
 
 # Set up the client, connect them to the server, allow them to send messages
@@ -60,6 +61,9 @@ client.loop_start()
 publish.single(MQTT_PATH, "The server was opened successfully.", hostname=client._host)
 
 while True:  # continually ask for input to publish
-    msg = input()
+    msg = "Kayden: " + input()
     for i in [MQTT_CHLOE, MQTT_KAYDEN, MQTT_JACKY]:  # publish message to all 3 devices
-        publish.single(MQTT_PATH, msg, hostname=i)
+        try:
+            publish.single(MQTT_PATH, msg, hostname=i)
+        except OSError:
+            print(i + " is not an open socket.", file=sys.stderr)
