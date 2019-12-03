@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 MQTT_CHLOE = "192.168.43.106" # Chloe's IP - the host
 MQTT_KAYDEN = "192.168.43.12" # Kayden's IP
 MQTT_JACKY = "192.168.43.142" # Jacky's IP
-MQTT_PATH = "test_channel"
+MQTT_PATH = "test_channel" # the topic name
 
  
 # The callback for when the client receives a CONNACK response from the server.
@@ -31,7 +31,7 @@ client.connect(MQTT_CHLOE, 1883, 60)
 # handles reconnecting.
 # Other loop*() functions are available that give a threaded interface and a
 # manual interface.
-client.loop_forever()
+client.loop_start()
 
 
 publish.single(MQTT_PATH, "The server was opened successfully.", hostname=MQTT_CHLOE)
