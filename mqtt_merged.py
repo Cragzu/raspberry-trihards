@@ -18,7 +18,7 @@ def on_connect(client, userdata, flags, rc: int):
 
     :param client: the device running the script and connecting to the MQTT server
     :param userdata: user data of any type, set when creating the client instance
-    :param flags: unused? remove?
+    :param flags: any flags automatically raised during the connection
     :param rc: int, the result code of the connection.
     :precondition: rc should be 0 if the connection was successful.
     :postcondition: print connection result
@@ -55,7 +55,7 @@ client.user_data_set(MQTT_CURRENT)
 # 60 keepalive (the rate ping messages are sent; or max time in seconds allowed between broker communications)
 client.connect(MQTT_CURRENT)
  
-# Blocking call that processes network traffic, dispatches callbacks and handles reconnecting.
+# Non-blocking call that processes network traffic, dispatches callbacks and handles reconnecting.
 client.loop_start()
 
 # publish initial message to server when client connects
